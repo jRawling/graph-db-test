@@ -7,11 +7,11 @@ namespace ConsoleApp1.Aggregates
 {
     public interface ICatalogue
     {
-        Brand CreateBrand(string name);
-        Category CreateCategory(string name);
-        AppStore CreateAppStore(string name);
+        void CreateBrand(string name);
+        void CreateCategory(string name);
+        void CreateAppStore(string name);
 
-        App CreateApp(Guid appStoreId, string name);
-        Product CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name);
+        void CreateApp(Guid appStoreId, string name);
+        void CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name);
     }
 }

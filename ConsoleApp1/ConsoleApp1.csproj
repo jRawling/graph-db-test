@@ -6,7 +6,4 @@
   <ItemGroup>
     <PackageReference Include="Neo4j.Driver" Version="1.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
 </Project>
