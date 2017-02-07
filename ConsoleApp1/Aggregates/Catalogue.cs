@@ -20,8 +20,7 @@ namespace ConsoleApp1.Aggregates
 
         public void CreateBrand(string name)
         {
-            
-            BrandRepository brands = new BrandRepository();
+            IBrandRepository brands = new BrandRepository();
             brands.CreateBrand(name);
         }
 
@@ -33,6 +32,12 @@ namespace ConsoleApp1.Aggregates
         public void CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteAllBrands()
+        {
+            IBrandRepository brands = new BrandRepository();
+            brands.DeleteAll();
         }
     }
 }

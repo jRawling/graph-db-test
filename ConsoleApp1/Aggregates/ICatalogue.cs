@@ -8,6 +8,7 @@ namespace ConsoleApp1.Aggregates
     public interface ICatalogue
     {
         void CreateBrand(string name);
+        void DeleteAllBrands();
         void CreateCategory(string name);
         void CreateAppStore(string name);
 
