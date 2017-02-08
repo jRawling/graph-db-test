@@ -7,26 +7,30 @@ using ConsoleApp1.Repositories;
 namespace ConsoleApp1.Aggregates
 {
     public class Catalogue : ICatalogue
-    {
+    { 
+        public App CreateApp(AppStore appstore, Brand brand, string name)
+        {
+            return new AppRepository().CreateApp(appstore, brand, name);
+        }
+
         public void CreateApp(Guid appStoreId, string name)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateAppStore(string name)
+        public AppStore CreateAppStore(string name)
         {
-            throw new NotImplementedException();
+            return new AppStoreRepository().CreateAppStore(name);
         }
 
-        public void CreateBrand(string name)
+        public Brand CreateBrand(string name)
         {
-            IBrandRepository brands = new BrandRepository();
-            brands.CreateBrand(name);
+            return new BrandRepository().CreateBrand(name);
         }
 
-        public void CreateCategory(string name)
+        public Category CreateCategory(string name)
         {
-            throw new NotImplementedException();
+            return new CategoryRepository().CreateCategory(name);
         }
 
         public void CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name)
@@ -34,10 +38,29 @@ namespace ConsoleApp1.Aggregates
             throw new NotImplementedException();
         }
 
+        public void DeleteAllApps()
+        {
+            new AppRepository().DeleteAll();
+        }
+
+        public void DeleteAllAppStores()
+        {
+            new AppStoreRepository().DeleteAll();
+        }
+
         public void DeleteAllBrands()
         {
-            IBrandRepository brands = new BrandRepository();
-            brands.DeleteAll();
+            new BrandRepository().DeleteAll();
+        }
+
+        public void DeleteAllCategories()
+        {
+            new CategoryRepository().DeleteAll();
+        }
+
+        public void DeleteAllProducts()
+        {
+            new ProductRepository().DeleteAll();
         }
     }
 }

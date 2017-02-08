@@ -6,8 +6,14 @@ namespace ConsoleApp1.Entities
 {
     public class App
     {
-        public App(string name, params Guid[] appStoreIds)
-        { }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+
+        public App(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
 
     }
 }
