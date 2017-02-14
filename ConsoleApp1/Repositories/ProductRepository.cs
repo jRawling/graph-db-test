@@ -5,9 +5,6 @@ namespace ConsoleApp1.Repositories
 {
     public class ProductRepository : Neo4jRepository
     {
-        public void DeleteAll()
-        {
-            Execute("MATCH (p:Product) DETACH DELETE p");
-        }
+        public ProductRepository() : base("Product") { }
     }
 }
