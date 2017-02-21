@@ -18,13 +18,13 @@ class Program
         AppStoreRepository appStoreRepository = new AppStoreRepository();
         appStoreRepository.DeleteAll();
         AppStore appleStore = appStoreRepository.Create(new AppStore("Apple"));
-        AppStore googleStore = appStoreRepository.Create(new AppStore("Google"));
+      //  AppStore googleStore = appStoreRepository.Create(new AppStore("Google"));
 
         Console.WriteLine("Creating brands");
         BrandRepository brandRepository = new BrandRepository();
         brandRepository.DeleteAll();
         Brand amazon = brandRepository.Create(new Brand("Amazon"));
-        Brand belkin = brandRepository.Create(new Brand("Belkin"));
+      //  Brand belkin = brandRepository.Create(new Brand("Belkin"));
         Brand britishGas = brandRepository.Create(new Brand("British Gas"));
         Brand lifx = brandRepository.Create(new Brand("LIFX"));
         Brand philips = brandRepository.Create(new Brand("Philips"));
@@ -52,7 +52,7 @@ class Program
         Standalone echo = productRepository.Create(new Standalone("Echo", amazon, alexa, null)) as Standalone;
         Console.WriteLine("- British Gas");
         Hub hiveHub = productRepository.Create(new Hub("Hive Hub", britishGas)) as Hub;
-        Accessory hiveThermostat = productRepository.Create(new Accessory("Hive Thermostat", britishGas, hive, null, hiveHub)) as Accessory;
+        Accessory hiveThermostat = productRepository.Create(new Accessory("Hive Thermostat", britishGas, hive, new List<App>() { alexa }, hiveHub)) as Accessory;
         Console.WriteLine("- Philips");
         Console.WriteLine("- LIFX");
         Standalone lifxBulb = productRepository.Create(new Standalone("LIFX White", lifx, lifxApp, new List<App>() { smartThingsApp, alexa })) as Standalone;
