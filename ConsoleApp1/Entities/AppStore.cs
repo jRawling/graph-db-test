@@ -4,12 +4,13 @@ namespace ConsoleApp1.Entities
 {
     public class AppStore
     {
+        public static string Label = "AppStore";
         public Guid Id { get; private set; }
         public string Name { get; private set; }
 
-        public AppStore(Guid id, string name)
+        public AppStore(string name)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Name = name;
         }
     }

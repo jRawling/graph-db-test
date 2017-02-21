@@ -1,22 +1,22 @@
 ﻿using ConsoleApp1.Entities;
-using Neo4j.Driver.V1;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ConsoleApp1.Repositories
 {
     public class AppStoreRepository : Neo4jRepository
     {
-        public AppStoreRepository() : base("AppStore") { }
-
-        public AppStore CreateAppStore(string appStoreName)
+        public AppStore Create(AppStore appStore)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("id", Guid.NewGuid().ToString());
-            parameters.Add("name", appStoreName);
-            var result = Execute("CREATE (as:" + Label + " {id: {id}, name: {name}}) RETURN as.id as id", parameters);
-            return new AppStore(Guid.Parse(result.First()["id"].ToString()), appStoreName);
+            parameters.Add("id", appStore.Id.ToString());
+            parameters.Add("name", appStore.Name);
+            var result = Execute("CREATE (as:" + AppStore.Label + " {id: {id}, name: {name}})", parameters);
+            return appStore;
+        }
+
+        public void DeleteAll()
+        {
+            DeleteAll(AppStore.Label);
         }
     }
 }

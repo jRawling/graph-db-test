@@ -3,6 +3,7 @@ using Neo4j.Driver.V1;
 using System.Collections.Generic;
 using ConsoleApp1.Aggregates;
 using ConsoleApp1.Entities;
+using ConsoleApp1.Repositories;
 
 class Program
 {
@@ -13,40 +14,48 @@ class Program
 
     private static void Test()
     {
-        ICatalogue catalogue = new Catalogue();
-
-        Console.WriteLine("Resetting database");
-        catalogue.DeleteAllBrands();
-        catalogue.DeleteAllAppStores();
-        //catalogue.DeleteAllCategories();
-        catalogue.DeleteAllProducts();
-        catalogue.DeleteAllApps();
-
         Console.WriteLine("Creating app stores");
-        AppStore appleStore = catalogue.CreateAppStore("Apple");
-        AppStore googleStore = catalogue.CreateAppStore("Google");
+        AppStoreRepository appStoreRepository = new AppStoreRepository();
+        appStoreRepository.DeleteAll();
+        AppStore appleStore = appStoreRepository.Create(new AppStore("Apple"));
+        AppStore googleStore = appStoreRepository.Create(new AppStore("Google"));
 
-        /*
-        Console.WriteLine("Creating catagories");
-        Category lighting = catalogue.CreateCategory("Lighting");
-        Category heating = catalogue.CreateCategory("Heating");
-        Category smartAssistant = catalogue.CreateCategory("Smart Assistant");
-        Category hub = catalogue.CreateCategory("Hub");
-        */
+        Console.WriteLine("Creating brands");
+        BrandRepository brandRepository = new BrandRepository();
+        brandRepository.DeleteAll();
+        Brand amazon = brandRepository.Create(new Brand("Amazon"));
+        Brand belkin = brandRepository.Create(new Brand("Belkin"));
+        Brand britishGas = brandRepository.Create(new Brand("British Gas"));
+        Brand lifx = brandRepository.Create(new Brand("LIFX"));
+        Brand philips = brandRepository.Create(new Brand("Philips"));
+        Brand smartThings = brandRepository.Create(new Brand("SmartThings"));
 
-        Console.WriteLine("Creating brands:");
+        //Console.WriteLine("Creating catagories");
+        //Category lighting = catalogue.CreateCategory("Lighting");
+        //Category heating = catalogue.CreateCategory("Heating");
+        //Category smartAssistant = catalogue.CreateCategory("Smart Assistant");
+        //Category hub = catalogue.CreateCategory("Hub");
+
+        Console.WriteLine("Creating apps");
+        AppRepository appRepository = new AppRepository();
+        appRepository.DeleteAll();
+        App alexa = appRepository.Create(new App("Alexa", amazon, new List<AppStore>() { appleStore }));
+        App hive = appRepository.Create(new App("Hive", britishGas, new List<AppStore>() { appleStore }));
+        App hue = appRepository.Create(new App("Hue", philips, new List<AppStore>() { appleStore }));
+        App lifxApp = appRepository.Create(new App("LIFX", lifx, new List<AppStore>() { appleStore }));
+        App smartThingsApp = appRepository.Create(new App("SmartThings Mobile", smartThings, new List<AppStore>() { appleStore }));
+
+        Console.WriteLine("Creating products:");
+        ProductRepository productRepository = new ProductRepository();
+        productRepository.DeleteAll();
         Console.WriteLine("- Amazon");
-        Brand amazon = catalogue.CreateBrand("Amazon");
-        App alexa = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, amazon, "Alexa");
-        //  Product echo = catalogue.CreateProduct(amazon.Id, smartAssistant.Id, )
-
+        Standalone echo = productRepository.Create(new Standalone("Echo", amazon, alexa, null)) as Standalone;
         Console.WriteLine("- British Gas");
-        Brand britishGas = catalogue.CreateBrand("British Gas");
-        App hive = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, britishGas, "Hive");
-        Product hiveHub = catalogue.CreateProduct(britishGas, hive, new List<App>() { alexa }, "Hive Hub");
-
+        Hub hiveHub = productRepository.Create(new Hub("Hive Hub", britishGas)) as Hub;
+        Accessory hiveThermostat = productRepository.Create(new Accessory("Hive Thermostat", britishGas, hive, null, hiveHub)) as Accessory;
         Console.WriteLine("- Philips");
-        Brand philips = catalogue.CreateBrand("Philips");
-        App hue = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, philips, "Hue");
-    }       
+        Console.WriteLine("- LIFX");
+        Standalone lifxBulb = productRepository.Create(new Standalone("LIFX White", lifx, lifxApp, new List<App>() { smartThingsApp, alexa })) as Standalone;
+        Console.WriteLine("- SmartThings");
+    }
 }

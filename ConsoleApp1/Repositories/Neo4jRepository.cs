@@ -8,13 +8,6 @@ namespace ConsoleApp1.Repositories
         private readonly string Server = "bolt://localhost:32768";
         private readonly IAuthToken AuthToken = AuthTokens.Basic("neo4j", "password");
 
-        protected string Label { get; set; }
-
-        protected Neo4jRepository(string label)
-        {
-            Label = label;
-        }
-
         protected IStatementResult Execute(string statement)
         {
             using (var driver = GraphDatabase.Driver(Server, AuthToken))
@@ -33,14 +26,22 @@ namespace ConsoleApp1.Repositories
             }
         }
 
-        public void GetAll()
+        protected void GetAll(string label)
         {
-            Execute(string.Format("MATCH (n:{0}) RETURN n", Label));
+            Execute(string.Format("MATCH (n:{0}) RETURN n", label));
         }
 
-        public void DeleteAll()
+        protected void DeleteAll(string label)
         {
-            Execute(string.Format("MATCH (n:{0}) DETACH DELETE n", Label));
+            Execute(string.Format("MATCH (n:{0}) DETACH DELETE n", label));
+        }
+
+        protected void AddIdsToParameters(Dictionary<string, object> parameters, Dictionary<string, string> nodes)
+        {
+            foreach (KeyValuePair<string, string> node in nodes)
+            {
+                parameters.Add(string.Format("{0}Id", node.Key), node.Value);
+            }
         }
     }
 }

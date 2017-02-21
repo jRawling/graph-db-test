@@ -8,43 +8,37 @@ namespace ConsoleApp1.Repositories
 {
     public class AppRepository : Neo4jRepository
     {
-        public AppRepository() : base("App") { }
-
-        public App CreateApp(IEnumerable<AppStore> appStores, Brand brand, string name)
+        public App Create(App app)
         {    
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("id", Guid.NewGuid().ToString());
-            parameters.Add("brandId", brand.Id.ToString());
-            parameters.Add("name", name);
-            Dictionary<string, string> appStoreNodes = GetAppStoreNodes(appStores);
-            AddAppStoreIdsToParameters(parameters, appStoreNodes);
+            parameters.Add("id", app.Id.ToString());
+            parameters.Add("brandId", app.Brand.Id.ToString());
+            parameters.Add("name", app.Name);
+            Dictionary<string, string> appStoreNodes = GetAppStoreNodes(app.AvailableOn);
+            AddIdsToParameters(parameters, appStoreNodes);
 
-            string matchClause = "MATCH ";
-
-            foreach (string key in appStoreNodes.Keys)
-            {
-                matchClause += string.Format("({0}:AppStore {{id: {{{0}Id}}}}), ", key);
-            }
-
-            matchClause += "(b:Brand {id: {brandId}})";
-            matchClause += string.Format(" \nCREATE (app:{0} {{id: {{id}}, name: {{name}}}}), (app)-[:made_by]->(b)", Label);
+            string clause = "MATCH ";
 
             foreach (string key in appStoreNodes.Keys)
             {
-                matchClause += string.Format(", (app)-[:available_on]->({0})", key);
+                clause += string.Format("({0}:{1} {{id: {{{0}Id}}}}), ", key, AppStore.Label);
             }
 
-            matchClause += " \nRETURN app.id as id;";
-            var result = Execute(matchClause, parameters);
-            return new App(Guid.Parse(result.First()["id"].ToString()), name);
+            clause += "(b:Brand {id: {brandId}})";
+            clause += string.Format(" \nCREATE (app:{0} {{id: {{id}}, name: {{name}}}}), (app)-[:made_by]->(b)", App.Label);
+
+            foreach (string key in appStoreNodes.Keys)
+            {
+                clause += string.Format(", (app)-[:available_on]->({0})", key);
+            }
+
+            var result = Execute(clause, parameters);
+            return app;
         }
 
-        private void AddAppStoreIdsToParameters(Dictionary<string, object> parameters, Dictionary<string, string> appStoreNodes)
+        public void DeleteAll()
         {
-            foreach(KeyValuePair<string, string> node in appStoreNodes)
-            {
-                parameters.Add(string.Format("{0}Id", node.Key), node.Value);
-            }
+            DeleteAll(App.Label);
         }
 
         private Dictionary<string, string> GetAppStoreNodes(IEnumerable<AppStore> appStores)

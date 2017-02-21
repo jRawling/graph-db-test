@@ -5,62 +5,62 @@ using System.Collections.Generic;
 
 namespace ConsoleApp1.Aggregates
 {
-    public class Catalogue : ICatalogue
+    public class Catalogue
     {
-        private AppRepository AppRepository { get; } = new AppRepository();
-        private AppStoreRepository AppStoreRepository { get; } = new AppStoreRepository();
-        private BrandRepository BrandRepository { get; } = new BrandRepository();
-        private CategoryRepository CategoryRepository { get; } = new CategoryRepository();
-        private ProductRepository ProductRepository { get; } = new ProductRepository();
+        //private AppRepository AppRepository { get; } = new AppRepository();
+        //private AppStoreRepository AppStoreRepository { get; } = new AppStoreRepository();
+        //private BrandRepository BrandRepository { get; } = new BrandRepository();
+        //private CategoryRepository CategoryRepository { get; } = new CategoryRepository();
+        //private ProductRepository ProductRepository { get; } = new ProductRepository();
 
-        public App CreateApp(IEnumerable<AppStore> appStores, Brand brand, string name)
-        {
-            return AppRepository.CreateApp(appStores, brand, name);
-        }
+        //public App Create(App app)
+        //{
+        //    return AppRepository.Create(app);
+        //}
 
-        public AppStore CreateAppStore(string name)
-        {
-            return AppStoreRepository.CreateAppStore(name);
-        }
+        //public AppStore Create(AppStore appStore)
+        //{
+        //    return AppStoreRepository.Create(appStore);
+        //}
 
-        public Brand CreateBrand(string name)
-        {
-            return BrandRepository.CreateBrand(name);
-        }
+        //public Brand CreateBrand(Brand brand)
+        //{
+        //    return BrandRepository.Create(brand);
+        //}
 
-        public Category CreateCategory(string name)
-        {
-            return CategoryRepository.CreateCategory(name);
-        }
+        //public Category CreateCategory(Category category)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Product CreateProduct(Brand brand, App nativeApp, IEnumerable<App> thirdPartyApps, string name)
-        {
-            return ProductRepository.CreateProduct(brand, nativeApp, thirdPartyApps, name);
-        }
+        //public Product CreateProduct(Product product)
+        //{
+        //    return null;
+        //}
 
-        public void DeleteAllApps()
-        {
-            AppRepository.DeleteAll();
-        }
+        //public void DeleteAllApps()
+        //{
+        //    AppRepository.DeleteAll();
+        //}
 
-        public void DeleteAllAppStores()
-        {
-            AppStoreRepository.DeleteAll();
-        }
+        //public void DeleteAllAppStores()
+        //{
+        //    AppStoreRepository.DeleteAll();
+        //}
 
-        public void DeleteAllBrands()
-        {
-            BrandRepository.DeleteAll();
-        }
+        //public void DeleteAllBrands()
+        //{
+        //    BrandRepository.DeleteAll();
+        //}
 
-        public void DeleteAllCategories()
-        {
-            CategoryRepository.DeleteAll();
-        }
+        //public void DeleteAllCategories()
+        //{
+        //    CategoryRepository.DeleteAll();
+        //}
 
-        public void DeleteAllProducts()
-        {
-            ProductRepository.DeleteAll();
-        }
+        //public void DeleteAllProducts()
+        //{
+        //  //  ProductRepository.DeleteAll();
+        //}
     }
 }

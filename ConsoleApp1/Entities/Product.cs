@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ConsoleApp1.Entities
 {
-    public class Product
+    public abstract class Product
     {
-        public string Name { get; private set; }
-        public object NativeApp { get; private set; }
-        public Product Requires { get; private set; }
-        public IEnumerable<object> ThirdPartyApps { get; private set; }
+        public static string Label = "Product";
+        public Guid Id { get; private set; }
+        public string Name { get; protected set; }
+        public Brand Brand { get; protected set; }
 
-        public Product(string name)
+        public Product(string name, Brand brand)
         {
+            Id = Guid.NewGuid();
             Name = name;
+            Brand = brand;
         }
     }
 }
