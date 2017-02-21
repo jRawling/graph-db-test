@@ -5,7 +5,7 @@ namespace ConsoleApp1.Repositories
 {
     public abstract class Neo4jRepository
     {
-        private readonly string Server = "bolt://localhost:3203";
+        private readonly string Server = "bolt://localhost:32768";
         private readonly IAuthToken AuthToken = AuthTokens.Basic("neo4j", "password");
 
         protected string Label { get; set; }

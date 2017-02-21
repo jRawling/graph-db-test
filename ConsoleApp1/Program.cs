@@ -18,7 +18,7 @@ class Program
         Console.WriteLine("Resetting database");
         catalogue.DeleteAllBrands();
         catalogue.DeleteAllAppStores();
-        catalogue.DeleteAllCategories();
+        //catalogue.DeleteAllCategories();
         catalogue.DeleteAllProducts();
         catalogue.DeleteAllApps();
 
@@ -26,22 +26,27 @@ class Program
         AppStore appleStore = catalogue.CreateAppStore("Apple");
         AppStore googleStore = catalogue.CreateAppStore("Google");
 
+        /*
         Console.WriteLine("Creating catagories");
         Category lighting = catalogue.CreateCategory("Lighting");
         Category heating = catalogue.CreateCategory("Heating");
         Category smartAssistant = catalogue.CreateCategory("Smart Assistant");
         Category hub = catalogue.CreateCategory("Hub");
+        */
 
         Console.WriteLine("Creating brands:");
         Console.WriteLine("- Amazon");
         Brand amazon = catalogue.CreateBrand("Amazon");
-        App alexa = catalogue.CreateApp(appleStore, amazon, "Alexa");
-      //  Product echo = catalogue.CreateProduct(amazon.Id, smartAssistant.Id, )
+        App alexa = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, amazon, "Alexa");
+        //  Product echo = catalogue.CreateProduct(amazon.Id, smartAssistant.Id, )
 
+        Console.WriteLine("- British Gas");
+        Brand britishGas = catalogue.CreateBrand("British Gas");
+        App hive = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, britishGas, "Hive");
+        Product hiveHub = catalogue.CreateProduct(britishGas, hive, new List<App>() { alexa }, "Hive Hub");
 
         Console.WriteLine("- Philips");
         Brand philips = catalogue.CreateBrand("Philips");
-        Console.WriteLine("- British Gas");
-        Brand britishGas = catalogue.CreateBrand("British Gas");
+        App hue = catalogue.CreateApp(new List<AppStore>() { appleStore, googleStore }, philips, "Hue");
     }       
 }

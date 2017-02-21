@@ -1,6 +1,7 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Repositories;
 using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp1.Aggregates
 {
@@ -12,14 +13,9 @@ namespace ConsoleApp1.Aggregates
         private CategoryRepository CategoryRepository { get; } = new CategoryRepository();
         private ProductRepository ProductRepository { get; } = new ProductRepository();
 
-        public App CreateApp(AppStore appstore, Brand brand, string name)
+        public App CreateApp(IEnumerable<AppStore> appStores, Brand brand, string name)
         {
-            return AppRepository.CreateApp(appstore, brand, name);
-        }
-
-        public void CreateApp(Guid appStoreId, string name)
-        {
-            throw new NotImplementedException();
+            return AppRepository.CreateApp(appStores, brand, name);
         }
 
         public AppStore CreateAppStore(string name)
@@ -37,9 +33,9 @@ namespace ConsoleApp1.Aggregates
             return CategoryRepository.CreateCategory(name);
         }
 
-        public void CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name)
+        public Product CreateProduct(Brand brand, App nativeApp, IEnumerable<App> thirdPartyApps, string name)
         {
-            throw new NotImplementedException();
+            return ProductRepository.CreateProduct(brand, nativeApp, thirdPartyApps, name);
         }
 
         public void DeleteAllApps()

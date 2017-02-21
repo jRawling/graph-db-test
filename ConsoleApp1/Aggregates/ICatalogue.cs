@@ -11,14 +11,13 @@ namespace ConsoleApp1.Aggregates
         Category CreateCategory(string name);
         AppStore CreateAppStore(string name);
         
-        void CreateApp(Guid appStoreId, string name);
-        void CreateProduct(Guid brandId, Guid categoryId, Guid appId, string name);
+        Product CreateProduct(Brand brand, App nativeApp, IEnumerable<App> thirdPartyApps, string name);
 
         void DeleteAllBrands();
         void DeleteAllProducts();
         void DeleteAllCategories();
         void DeleteAllApps();
         void DeleteAllAppStores();
-        App CreateApp(AppStore appstore, Brand brand, string name);
+        App CreateApp(IEnumerable<AppStore> appStores, Brand brand, string name);
     }
 }
